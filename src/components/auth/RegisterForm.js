@@ -7,6 +7,9 @@ import * as z from 'zod';
 import { useForm } from 'react-hook-form'
 import {zodResolver} from "@hookform/resolvers/zod"
 import { useToast } from '@/hooks/use-toast'
+import { registerUserAction } from '@/actions/register'
+import { useRouter } from 'next/navigation'
+
 
 const schema=z.object({
   name:z.string().min(2,{message:"Name must be at least 2 characters."}),
@@ -19,8 +22,38 @@ const RegisterForm = () => {
   const [isLoading,setIsLoading]=useState(false);
   const {register,handleSubmit,formState:{errors},}=useForm({resolver:zodResolver(schema)});
   const {toast} =useToast();
+  const router=useRouter();
+  const onSubmit=async(data)=>{
+    setIsLoading(true);
+    try {
+      const formData=new FormData();
+      Object.keys(data).forEach(key=>formData.append(key,data[key]));
+      const result=await registerUserAction(formData);
+      console.log(result,"result");
+      if(result.success){
+        toast({
+          title:"Registration successful",
+          description:result.success
+        })
+        router.push('/login');
+      }else{
+        throw new Error(result.error || "Something went wrong");
+      }
+
+    } catch (error) {
+      console.log(error);
+      toast({
+        title:"Registration failed",
+        description:error.message,
+        variant:"destructive",
+      })
+    }finally{
+      setIsLoading(false);
+    }
+
+  }
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-4">
         <div className="relative">
           <User className='absolute left-3 top-2 h-5 w-5 text-gray-400'/>
