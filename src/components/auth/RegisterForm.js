@@ -1,5 +1,5 @@
 "use client"
-import { User } from 'lucide-react'
+import { Key, Mail, User } from 'lucide-react'
 import React, { useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -61,12 +61,12 @@ const RegisterForm = () => {
           focus:border-indigo-500"/>
         </div>
         <div className="relative">
-        <User className='absolute left-3 top-2 h-5 w-5 text-gray-400'/>
+        <Mail className='absolute left-3 top-2 h-5 w-5 text-gray-400'/>
           <Input {...register('email')} disabled={isLoading} type="email" placeholder="Email" className="pl-10 bg-gray-50 border border-gray-300 text-gray-900 focus:ring-indigo-500 
           focus:border-indigo-500"/>
         </div>
         <div className="relative">
-        <User className='absolute left-3 top-2 h-5 w-5 text-gray-400'/>
+        <Key className='absolute left-3 top-2 h-5 w-5 text-gray-400'/>
           <Input {...register('password')} disabled={isLoading} type="password" placeholder="Password" className="pl-10 bg-gray-50 border border-gray-300 text-gray-900 focus:ring-indigo-500 
           focus:border-indigo-500"/>
         </div>
